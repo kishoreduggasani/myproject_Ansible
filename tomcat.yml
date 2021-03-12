@@ -1,0 +1,36 @@
+---
+- name: Manage tomcat servers
+  hosts: webservers
+  tasks:
+  - name: ensure java is installed
+    package:
+      name: java-1.8.0
+      state: latest
+    become: true  
+  - name: ensure javac is installed
+    package:
+      name: java-1.8.0-devel
+      state: latest
+    become: true   
+  - name: Download apache binary
+    get_url:
+      url: https://archive.apache.org/dist/tomcat/tomcat-7/v7.0.94/bin/apache-tomcat-7.0.94.tar.gz
+      dest: /home/centos/apache.tar.gz
+
+  - name: Extract apache binary
+    unarchive:
+      src: /home/centos/apache.tar.gz
+      dest: /home/centos
+      remote_src: yes
+      
+  - name: Set apache conf
+    copy:
+      src: /home/centos/tomcat-users.xml
+      dest: /home/centos/apache-tomcat-7.0.94/conf/tomcat-users.xml
+
+  - name: start apache servers
+    command: nohup /home/centos/apache-tomcat-7.0.94/bin/startup.sh
+
+
+...
+

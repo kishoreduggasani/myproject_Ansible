@@ -1,0 +1,29 @@
+---
+- name: Manage nexus servers
+  hosts: nexus
+  tasks:
+  - name: ensure java is installed
+    package:
+      name: java-1.8.0
+      state: latest
+    become: true  
+  - name: ensure javac is installed
+    package:
+      name: java-1.8.0-devel
+      state: latest
+    become: true   
+  - name: Download nexus binary
+    get_url:
+      url:  https://download.sonatype.com/nexus/oss/nexus-2.14.18-01-bundle.tar.gz
+      dest: /home/centos/nexus.tar.gz
+
+  - name: Extract nexus binary
+    unarchive:
+      src: /home/centos/nexus.tar.gz
+      dest: /home/centos
+      remote_src: yes
+     
+  
+
+  - name: start nexus servers
+    command: nohup /home/centos/nexus-2.14.18-01/bin/nexus start

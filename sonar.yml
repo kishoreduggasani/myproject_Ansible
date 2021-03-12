@@ -1,0 +1,34 @@
+---
+- name: Manage sonar servers
+  hosts: sonar
+  tasks:
+  - name: ensure java is installed
+    package:
+      name: java-1.8.0
+      state: latest
+    become: true  
+  - name: ensure javac is installed
+    package:
+      name: java-1.8.0-devel
+      state: latest
+    become: true 
+  - name: ensure unzip is installed
+    package:
+      name: unzip
+      state: latest
+    become: true     
+  - name: Download sonar binary
+    get_url:
+      url:   https://binaries.sonarsource.com/Distribution/sonarqube/sonarqube-6.7.7.zip
+      dest: /home/centos/sonar.zip
+
+  - name: Extract sonar binary
+    unarchive:
+      src: /home/centos/sonar.zip
+      dest: /home/centos
+      remote_src: yes
+     
+  
+
+  - name: start sonar servers
+    command: nohup /home/centos/sonarqube-6.7.7/bin/linux-x86-64/sonar.sh start
