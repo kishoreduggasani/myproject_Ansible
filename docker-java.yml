@@ -1,0 +1,22 @@
+---
+- name: Manage docker servers
+  become: true 
+  hosts: docker
+  tasks:
+  - name: ensure java is installed
+    package:
+      name: java-1.8.0
+      state: latest
+    become: true
+  - name: ensure javac is installed
+    package:
+      name: java-1.8.0-devel
+      state: latest
+    become: true
+  - name: Download docker 
+    get_url:
+      url:  https://get.docker.com/
+      dest: /home/centos/get-docker.sh
+  - name: start docker servers
+    command: nohup sh /home/centos/get-docker.sh
+
