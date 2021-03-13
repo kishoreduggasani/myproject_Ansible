@@ -1,7 +1,7 @@
 ---
 - name: Manage docker servers
   become: true 
-  hosts: docker
+  hosts: jenkins-s
   tasks:
   - name: ensure java is installed
     package:
