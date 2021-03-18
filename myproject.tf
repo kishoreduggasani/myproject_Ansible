@@ -138,6 +138,7 @@ resource "aws_instance" "jen-s" {
   instance_type          = "t2.micro"
   subnet_id              = aws_subnet.public.id
   private_ip             = "10.0.1.51"
+  user_data              = file("insdocjava.sh")
   vpc_security_group_ids = [aws_security_group.allow_ssh.id]
   tags = {
     Name = "jenkins-s"
@@ -174,60 +175,61 @@ resource "aws_instance" "sonar" {
   tags = {
     Name = "sonar"
   }
-  # Delete rootVolume on Termination 
+ 
+# Delete rootVolume on Termination 
   root_block_device {
     delete_on_termination = true
   }
 }
-# launch instance for nexus 
+  # launch instance for nexus 
 resource "aws_instance" "nexus" {
-  key_name               = "devapps"
-  ami                    = "ami-0affd4508a5d2481b"
-  instance_type          = "t2.micro"
-  subnet_id              = aws_subnet.public.id
-  private_ip             = "10.0.1.54"
-  vpc_security_group_ids = [aws_security_group.allow_ssh.id]
-  tags = {
-    Name = "nexus"
-  }
-  # Delete rootVolume on Termination 
-  root_block_device {
-    delete_on_termination = true
-  }
+    key_name               = "devapps"
+    ami                    = "ami-0affd4508a5d2481b"
+    instance_type          = "t2.micro"
+    subnet_id              = aws_subnet.public.id
+    private_ip             = "10.0.1.54"
+    vpc_security_group_ids = [aws_security_group.allow_ssh.id]
+    tags = {
+      Name = "nexus"
+    }
+    # Delete rootVolume on Termination 
+    root_block_device {
+      delete_on_termination = true
+    }
 
-}
-# launch instance for  ansible
+  }
+  # launch instance for  ansible
 resource "aws_instance" "ansible" {
-  key_name               = "devapps"
-  ami                    = "ami-0affd4508a5d2481b"
-  instance_type          = "t2.micro"
-  subnet_id              = aws_subnet.public.id
-  private_ip             = "10.0.1.55"
-  vpc_security_group_ids = [aws_security_group.allow_ssh.id]
-  user_data              = file("install.sh")  
-  tags = {
-    Name = "ansible"
-  }
+    key_name               = "devapps"
+    ami                    = "ami-0affd4508a5d2481b"
+    instance_type          = "t2.micro"
+    subnet_id              = aws_subnet.public.id
+    private_ip             = "10.0.1.55"
+    vpc_security_group_ids = [aws_security_group.allow_ssh.id]
+    user_data              = file("install.sh")
+    tags = {
+      Name = "ansible"
+    }
 
-  # Delete rootVolume on Termination 
-  root_block_device {
-    delete_on_termination = true
+    # Delete rootVolume on Termination 
+    root_block_device {
+      delete_on_termination = true
+    }
   }
-}
-# launch instance for docker  
+  # launch instance for docker  
 resource "aws_instance" "docker" {
-  key_name               = "devapps"
-  ami                    = "ami-0affd4508a5d2481b"
-  instance_type          = "t2.micro"
-  subnet_id              = aws_subnet.public.id
-  private_ip             = "10.0.1.56"
-  vpc_security_group_ids = [aws_security_group.allow_ssh.id]
-  tags = {
-    Name = "docker"
+    key_name               = "devapps"
+    ami                    = "ami-0affd4508a5d2481b"
+    instance_type          = "t2.micro"
+    subnet_id              = aws_subnet.public.id
+    private_ip             = "10.0.1.56"
+    vpc_security_group_ids = [aws_security_group.allow_ssh.id]
+    tags = {
+      Name = "docker"
+    }
+    # Delete rootVolume on Termination 
+    root_block_device {
+      delete_on_termination = true
+    }
   }
-  # Delete rootVolume on Termination 
-  root_block_device {
-    delete_on_termination = true
-  }
-}
 
