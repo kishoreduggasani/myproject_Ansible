@@ -1,5 +1,5 @@
 ---
-- name: Manage docker server
+- name: Manage docker servers
   become: true 
   hosts: jenkins-s
   tasks:
