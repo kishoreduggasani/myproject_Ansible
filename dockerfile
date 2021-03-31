@@ -1,5 +1,5 @@
 #building calculator image using maven and tomcat
-From maven as calc_build_maven
+From maven:3.6.2 as calc_build_maven
 workdir /app
 copy . .
 run mvn package -e
